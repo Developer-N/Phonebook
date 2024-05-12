@@ -94,7 +94,7 @@
                 <div class="card-body d-flex flex-row gap-2">
                     <img class="img-fluid img-thumbnail rounded-5 profile" src="photos/22.jpg" alt="profile">
                     <div class="d-flex flex-column">
-                        <p>تلفن همراه: 09146362823</p>
+                        <p>تلفن همراه: 09999999999</p>
                         <p>تلفن ثابت: 04444444444</p>
                         <p>آدرس: سردشت</p>
                     </div>
