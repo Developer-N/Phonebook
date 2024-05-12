@@ -41,7 +41,7 @@
             <div class="card">
                 <div class="card-header text-center text-success bg-success-subtle fs-3 fw-bold">فرم ثبت نام</div>
                 <div class="card-body">
-                    <form action="#" method="post" enctype="multipart/form-data">
+                    <form action="ContactController.php" method="post" enctype="multipart/form-data">
                         <div class="d-flex flex-row flex-wrap gap-3 mb-3">
                             <div class="">
                                 <label for="firstName" class="form-label">نام*</label>
@@ -76,6 +76,13 @@
                         </div>
 
                     </form>
+                    <?php if (isset($_GET['insert'])) { ?>
+                        <p class="alert alert-success text-center fw-semibold"><?= $_GET['insert'] ?></p>
+                    <?php } ?>
+
+                    <?php if (isset($_GET['error'])) { ?>
+                        <p class="alert alert-danger text-center fw-semibold"><?= $_GET['error'] ?></p>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -87,19 +94,38 @@
     </form>
     <div class="container d-flex flex-row flex-wrap gap-2 justify-content-center">
         <?php
-        for ($i = 0; $i < 10;$i++) {
-            ?>
-            <div class="card">
-                <div class="card-header text-success bg-success-subtle fw-bolder fs-5 text-center">محسن احمدنیا</div>
-                <div class="card-body d-flex flex-row gap-2">
-                    <img class="img-fluid img-thumbnail rounded-5 profile" src="photos/22.jpg" alt="profile">
-                    <div class="d-flex flex-column">
-                        <p>تلفن همراه: 09999999999</p>
-                        <p>تلفن ثابت: 04444444444</p>
-                        <p>آدرس: سردشت</p>
+        $servername = "localhost";
+        $dbUsername = "root";
+        $dbPassword = "";
+        $databaseName = "Phonebook";
+
+        $conn = new mysqli($servername, $dbUsername, $dbPassword, $databaseName);
+
+        if ($conn->connect_error) {
+            die("خطا در اتصال به پایگاه داده: " . $conn->connect_error);
+        }
+        $sql = "SELECT * FROM contacts";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $index = 1;
+            while ($row = $result->fetch_assoc()) {
+                ?>
+                <div class="card">
+                    <div class="card-header text-success bg-success-subtle fw-bolder fs-5 text-center"><?= $row['firstName'] . ' ' . $row['lastName'] ?>
+                    </div>
+                    <div class="card-body d-flex flex-row gap-2">
+                        <img class="img-fluid img-thumbnail rounded-5 profile" src="photos/<?= $row['photo'] ?>"
+                             alt="profile">
+                        <div class="d-flex flex-column">
+                            <p>تلفن همراه: <?= $row['mobile'] ?></p>
+                            <p>تلفن ثابت: <?= $row['phone'] ?></p>
+                            <p>آدرس: <?= $row['address'] ?></p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php }
+        } else { ?>
+            <p class="alert alert-warning text-center fw-semibold">هیچ مخاطبی ذخیره نشده است.</p>
         <?php } ?>
     </div>
 
